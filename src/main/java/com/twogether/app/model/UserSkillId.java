@@ -1,0 +1,72 @@
+package com.twogether.app.model;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+import jakarta.persistence.Embeddable;
+
+
+@Embeddable
+public class UserSkillId implements Serializable{
+	
+	private Long userId;
+	private Long skillId;
+	
+	public UserSkillId() {
+		
+	}
+	
+	
+	public UserSkillId(Long userId, Long skillId) {
+		super();
+		this.userId = userId;
+		this.skillId = skillId;
+	}
+
+
+	public Long getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+
+	public Long getSkillId() {
+		return skillId;
+	}
+
+
+	public void setSkillId(Long skillId) {
+		this.skillId = skillId;
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(skillId, userId);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserSkillId other = (UserSkillId) obj;
+		return Objects.equals(skillId, other.skillId) && Objects.equals(userId, other.userId);
+	}
+	
+	
+
+	/**
+	 * 
+	 */
+
+
+}
