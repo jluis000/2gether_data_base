@@ -15,16 +15,16 @@ public class Skill {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "skills_id")
-	private Integer skillId;
+	private Long skillId;
 	@Column(name = "name_skills", length = 100)
 	private String nameSkills;
 	@Column(name = "description", columnDefinition  = "TEXT")
 	private String description;
 	
-	public Integer getSkillId() {
+	public Long getSkillId() {
 		return skillId;
 	}
-	public void setSkillId(Integer skillId) {
+	public void setSkillId(Long skillId) {
 		this.skillId = skillId;
 	}
 	public String getNameSkills() {
