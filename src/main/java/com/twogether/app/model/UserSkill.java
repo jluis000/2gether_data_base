@@ -1,5 +1,7 @@
 package com.twogether.app.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -23,6 +25,7 @@ public class UserSkill {
 	@ManyToOne
     @MapsId("userId")
 	@JoinColumn(name = "user_id")
+	@JsonBackReference
 	private User user;
 	
 	public UserSkillId getId() {
