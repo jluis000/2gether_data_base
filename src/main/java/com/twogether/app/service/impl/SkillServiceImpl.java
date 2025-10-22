@@ -63,7 +63,7 @@ public class SkillServiceImpl implements SkillService {
 		if (skillOptional.isEmpty()) {
 			throw new IllegalStateException("Role does not exist with id " + id);
 		}
-		Skill existingSkill = skillOptional.get(); // role leido de la DB
+		Skill existingSkill = skillOptional.get(); // 
 
 		skillRepository.delete(existingSkill);
 

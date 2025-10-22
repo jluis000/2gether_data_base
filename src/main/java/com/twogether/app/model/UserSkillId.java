@@ -9,6 +9,10 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class UserSkillId implements Serializable{
 	
+	/**
+	 * 
+	 */
+	
 	private Long userId;
 	private Long skillId;
 	
