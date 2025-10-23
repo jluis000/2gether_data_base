@@ -8,6 +8,7 @@ import com.twogether.app.model.User;
 import com.twogether.app.repository.UserRepository;
 import com.twogether.app.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,5 +86,56 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("User not found");
         }
         userRepository.deleteById(id);
+	}
+
+	@Override
+	public List<User> findIdealExchanges(Long userId) {
+	    User authenticatedUser = userRepository.findById(userId)
+	            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+	    
+	    String skillToLearn = authenticatedUser.getSkillToLearn();
+	    String skillToTeach = authenticatedUser.getSkillToTeach();
+
+	    List<User> idealExchanges = new ArrayList<>(getAllUsers().stream()
+	            .filter(u -> !u.getId().equals(authenticatedUser.getId())) // excluir al usuario autenticado
+	            .filter(u -> u.getSkillToTeach().equals(skillToLearn)) // enseñan lo que quiere aprender
+	            .filter(u -> u.getSkillToLearn().equals(skillToTeach)) // buscan lo que él enseña
+	            .toList());
+
+	    return idealExchanges;
+	}
+
+	@Override
+	public List<User> findSuggestedUsers(Long userId) {
+	    User authenticatedUser = userRepository.findById(userId)
+	            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+	    String skillToLearn = authenticatedUser.getSkillToLearn();
+	    String skillToTeach = authenticatedUser.getSkillToTeach();
+
+	    List<User> suggestedUsers = getAllUsers().stream()
+	            .filter(u -> !u.getId().equals(authenticatedUser.getId())) // excluir al usuario autenticado
+	            .filter(u -> u.getSkillToTeach().equals(skillToLearn))    // enseñan lo que quiere aprender
+	            .filter(u -> !u.getSkillToLearn().equals(skillToTeach))   // no buscan lo que él enseña
+	            .toList();
+
+	    return suggestedUsers;
+	}
+
+	@Override
+	public List<User> findUsersICanHelp(Long userId) {
+		User authUser = userRepository.findById(userId)
+	            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+	    String mySkillToTeach = authUser.getSkillToTeach();
+	    String mySkillToLearn = authUser.getSkillToLearn();
+
+	    List<User> potential = getAllUsers().stream()
+	            .filter(u -> !u.getId().equals(userId)) // excluir al usuario autenticado
+	            .filter(u -> u.getSkillToLearn().equals(mySkillToTeach)) // buscan aprender lo que yo enseño
+	            .filter(u -> !u.getSkillToTeach().equals(mySkillToLearn)) // no enseñan lo que yo quiero aprender
+	            .toList();
+
+	    return potential;
 	}
 }

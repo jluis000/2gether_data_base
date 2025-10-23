@@ -59,4 +59,21 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+    
+    @GetMapping("/ideal-exchanges/{id}")
+    public ResponseEntity<List<User>> getIdealExchanges(@PathVariable("id") Long id) {
+        List<User> exchanges = userService.findIdealExchanges(id);
+        return ResponseEntity.ok(exchanges);
+    }
+    
+    @GetMapping("/suggested/{id}")
+    public List<User> getSuggestedUsers(@PathVariable("id") Long userId) {
+        return userService.findSuggestedUsers(userId);
+    }
+    
+    @GetMapping("/can-help/{id}")
+    public List<User> getUsersICanHelp(@PathVariable("id") Long userId) {
+        return userService.findUsersICanHelp(userId);
+    }
+    
 }

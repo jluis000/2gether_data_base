@@ -18,4 +18,10 @@ public interface UserService {
     Optional<User> getUserById(Long id);
 
     void deleteUser(Long id);
+    
+    List<User> findIdealExchanges(Long userId);
+    
+    List<User> findSuggestedUsers(Long userId);
+
+    List<User> findUsersICanHelp(Long userId);
 }
