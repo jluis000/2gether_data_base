@@ -1,4 +1,4 @@
-package com.twogether.app.controller;
+/*package com.twogether.app.controller;
 
 import java.util.List;
 
@@ -51,3 +51,4 @@ public class UserSkillController {
 	
 	
 }
+*/

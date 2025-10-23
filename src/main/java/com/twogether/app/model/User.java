@@ -2,24 +2,18 @@
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -53,16 +47,18 @@ public class User {
 	@UpdateTimestamp
 	@Column(name = "updated_at", nullable = false)
 	private LocalDateTime updatedAt;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonManagedReference
-	private List<UserSkill> userSkills = new ArrayList<>();
-	
+    @Column(name = "skill_to_learn", length = 100)
+    private String skillToLearn;
+    @Column(name = "skill_to_teach", length = 100)
+    private String skillToTeach;
+    @Column(name = "teaching_level", length = 50)
+    private String teachingLevel;
+
 	public User() {}
 
 	public User(Long id, String name, String email, String password, LocalDate birthDate, String country,
 			String photoUrl, String aboutMe, Double rating, Long numReviewers, LocalDateTime createdAt,
-			LocalDateTime updatedAt, List<UserSkill> userSkills) {
+			LocalDateTime updatedAt, String skillToLearn, String skillToTeach, String teachingLevel) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -75,12 +71,9 @@ public class User {
 		this.numReviewers = numReviewers;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
-		this.userSkills = userSkills;
-	}
-	
-	public User(String name, String email, String password, LocalDate birthDate, String country, String photoUrl, String aboutMe,
-			Double rating, Long numReviewers, LocalDateTime createdAt, LocalDateTime updatedAt, List<UserSkill> userSkills) {
-		this(null, name, email, password, birthDate, country, photoUrl, aboutMe, rating, numReviewers, null, null, userSkills);
+		this.skillToLearn = skillToLearn;
+		this.skillToTeach = skillToTeach;
+		this.teachingLevel = teachingLevel;
 	}
 
 	public Long getId() {
@@ -179,12 +172,28 @@ public class User {
 		this.updatedAt = updatedAt;
 	}
 
-	public List<UserSkill> getUserSkills() {
-		return userSkills;
+	public String getSkillToLearn() {
+		return skillToLearn;
 	}
 
-	public void setUserSkills(List<UserSkill> userSkills) {
-		this.userSkills = userSkills;
+	public void setSkillToLearn(String skillToLearn) {
+		this.skillToLearn = skillToLearn;
+	}
+
+	public String getSkillToTeach() {
+		return skillToTeach;
+	}
+
+	public void setSkillToTeach(String skillToTeach) {
+		this.skillToTeach = skillToTeach;
+	}
+
+	public String getTeachingLevel() {
+		return teachingLevel;
+	}
+
+	public void setTeachingLevel(String teachingLevel) {
+		this.teachingLevel = teachingLevel;
 	}
 
 	@Override
@@ -192,13 +201,14 @@ public class User {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", birthDate="
 				+ birthDate + ", country=" + country + ", photoUrl=" + photoUrl + ", aboutMe=" + aboutMe + ", rating="
 				+ rating + ", numReviewers=" + numReviewers + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-				+ ", userSkills=" + userSkills + "]";
+				+ ", skillToLearn=" + skillToLearn + ", skillToTeach=" + skillToTeach + ", teachingLevel="
+				+ teachingLevel + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(aboutMe, birthDate, country, createdAt, email, id, name, numReviewers, password, photoUrl,
-				rating, updatedAt, userSkills);
+				rating, skillToLearn, skillToTeach, teachingLevel, updatedAt);
 	}
 
 	@Override
@@ -215,8 +225,9 @@ public class User {
 				&& Objects.equals(email, other.email) && Objects.equals(id, other.id)
 				&& Objects.equals(name, other.name) && Objects.equals(numReviewers, other.numReviewers)
 				&& Objects.equals(password, other.password) && Objects.equals(photoUrl, other.photoUrl)
-				&& Objects.equals(rating, other.rating) && Objects.equals(updatedAt, other.updatedAt)
-				&& Objects.equals(userSkills, other.userSkills);
+				&& Objects.equals(rating, other.rating) && Objects.equals(skillToLearn, other.skillToLearn)
+				&& Objects.equals(skillToTeach, other.skillToTeach)
+				&& Objects.equals(teachingLevel, other.teachingLevel) && Objects.equals(updatedAt, other.updatedAt);
 	}
 	
 }

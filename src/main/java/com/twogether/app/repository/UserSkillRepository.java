@@ -1,4 +1,4 @@
-package com.twogether.app.repository;
+/*package com.twogether.app.repository;
 
 import java.util.List;
 
@@ -18,3 +18,4 @@ public interface UserSkillRepository  extends JpaRepository<UserSkill, UserSkill
     // 🔹 Todos los usuarios que tengan una habilidad específica
     List<UserSkill> findBySkill_SkillsId(Long skillId);
 }
+*/

@@ -1,79 +1,62 @@
 package com.twogether.app.controller;
 
-import com.twogether.app.dto.UserDto;
-import com.twogether.app.service.UserService;
-import org.springframework.http.HttpStatus;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.twogether.app.model.User;
+import com.twogether.app.service.UserService;
 
 @RestController
 @RequestMapping("/api/v1/users")
 @CrossOrigin(origins = "*")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
-		this.userService = userService;
-	}
+        this.userService = userService;
+    }
 
-	/**
-     * POST (Crear)
-     */
     @PostMapping("/register")
-    public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto) {
-        try {
-            UserDto newUser = userService.createUser(userDto);
-            return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        User newUser = userService.register(user);
+        return ResponseEntity.ok(newUser);
     }
 
-    /**
-     * GET (Leer todos)
-     */
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody User user) {
+        Optional<User> foundUser = userService.login(user.getEmail(), user.getPassword());
+        return foundUser
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(401).body("Invalid email or password"));
+    }
+
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUsers() {
-        List<UserDto> users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 
-    /**
-     * GET (Leer por ID)
-     */
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
-        return userService.getUserById(id)
-                .map(userDto -> new ResponseEntity<>(userDto, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+        Optional<User> user = userService.getUserById(id);
+        return user.map(ResponseEntity::ok)
+                   .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    /**
-     * PUT (Actualizar)
-     */
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @RequestBody UserDto userDto) {
-        try {
-            UserDto updatedUser = userService.updateUser(id, userDto);
-            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User updatedUser) {
+
+        User user = userService.updateUser(id, updatedUser);
+        return ResponseEntity.ok(user);
     }
 
-    /**
-     * DELETE (Borrar)
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
-        try {
-            userService.deleteUser(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }

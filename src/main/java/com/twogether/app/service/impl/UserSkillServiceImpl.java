@@ -1,4 +1,4 @@
-package com.twogether.app.service.impl;
+/*package com.twogether.app.service.impl;
 
 import java.util.List;
 
@@ -65,3 +65,4 @@ public class UserSkillServiceImpl implements UserSkillService {
 	}
 
 }
+*/

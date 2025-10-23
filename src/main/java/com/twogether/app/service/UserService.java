@@ -1,22 +1,21 @@
 package com.twogether.app.service;
 
-import com.twogether.app.dto.UserDto;
-import com.twogether.app.model.User;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.twogether.app.model.User;
+
 public interface UserService {
 
-    UserDto createUser(UserDto userDto);
+    User register(User user);
 
-    List<UserDto> getAllUsers();
+    Optional<User> login(String email, String password);
 
-    Optional<UserDto> getUserById(Long id);
+    User updateUser(Long id, User updatedUser);
 
-    UserDto updateUser(Long id, UserDto userDto);
+    List<User> getAllUsers();
+
+    Optional<User> getUserById(Long id);
 
     void deleteUser(Long id);
-    
-    Optional<User> getUserByEmail(String email);
 }

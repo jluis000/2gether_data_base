@@ -1,4 +1,4 @@
-package com.twogether.app.model;
+/*package com.twogether.app.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -75,4 +75,4 @@ public class UserSkill {
 	private String experienceLevel;
 	
 	
-}
+}*/

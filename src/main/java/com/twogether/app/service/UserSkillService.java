@@ -1,4 +1,4 @@
-package com.twogether.app.service;
+/*package com.twogether.app.service;
 
 import java.util.List;
 
@@ -20,3 +20,4 @@ public interface UserSkillService {
 	List<UserSkill> getUserSkills(Long userId);
 	List<UserSkill> getUsersBySkill(Long skillId);
 }
+*/
