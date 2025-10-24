@@ -39,9 +39,11 @@ public class SecurityConfig {
         
         // Permite peticiones desde el frontend
         configuration.setAllowedOrigins(Arrays.asList(
-        		"https://we2gether.netlify.app",
-        		"http://localhost:5173",   // para pruebas locales
-        		"http://127.0.0.1:5173"
+        		"https://we2gether.netlify.app",  // producción 
+        		"http://localhost:5173",   // desarrollo
+        		"http://127.0.0.1:5173",
+                "http://localhost:4173",   // vite preview
+                "http://127.0.0.1:4173"
         ));
         
         // Permite los métodos HTTP
