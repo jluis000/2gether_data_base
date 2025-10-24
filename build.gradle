@@ -9,9 +9,7 @@ version = '0.0.1-SNAPSHOT'
 description = '2gether backend'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+	sourceCompatibility = '17'
 }
 
 repositories {
